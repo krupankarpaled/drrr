@@ -1,0 +1,65 @@
+==========================================
+CRITICAL: Render Python Version Fix
+==========================================
+
+PROBLEM: Render is using Python 3.13.4, but MediaPipe requires Python 3.11 or lower.
+
+SOLUTION: Set Python version manually in Render Dashboard
+
+==========================================
+STEP-BY-STEP INSTRUCTIONS:
+==========================================
+
+1. GO TO RENDER DASHBOARD:
+   https://dashboard.render.com
+
+2. CLICK ON YOUR WEB SERVICE ("drowsing1")
+
+3. CLICK "Settings" TAB
+
+4. SCROLL TO "Environment Variables" SECTION
+
+5. CLICK "Add Environment Variable"
+
+6. ADD THIS VARIABLE:
+   Key:   PYTHON_VERSION
+   Value: 3.11.9
+
+7. CLICK "Save Changes"
+
+8. GO TO "Build & Deploy" SECTION (still in Settings)
+
+9. SET "Build Command" TO:
+   pip install -r requirements.txt
+
+10. SET "Start Command" TO:
+    streamlit run drowsiness_dashboard/app.py --server.port=$PORT --server.address=0.0.0.0
+
+11. CLICK "Save Changes"
+
+12. CLICK "Manual Deploy" BUTTON (top right)
+
+13. SELECT "Deploy latest commit"
+
+14. WATCH BUILD LOGS - Should show "Installing Python version 3.11.9"
+
+==========================================
+WHY THIS WORKS:
+==========================================
+
+- Render auto-detects Poetry, which overrides runtime.txt
+- Setting PYTHON_VERSION environment variable forces Python 3.11.9
+- This is the MOST RELIABLE method
+
+==========================================
+FILES TO COMMIT:
+==========================================
+
+Make sure these files are committed and pushed:
+- runtime.txt (contains: python-3.11.9)
+- requirements.txt
+- Procfile
+- .streamlit/config.toml
+
+==========================================
+
